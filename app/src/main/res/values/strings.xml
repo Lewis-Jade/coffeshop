@@ -6,4 +6,6 @@
     <string name="full_name">Full Name</string>
     <string name="welcome_back_please_log_in">Welcome back! Please log in.</string>
     <string name="loginst">Login</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
