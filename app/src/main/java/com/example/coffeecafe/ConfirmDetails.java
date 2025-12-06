@@ -22,6 +22,9 @@ public class ConfirmDetails extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_confirm_details);
+        SystemHelper systemHelper = new SystemHelper(this);
+        systemHelper.setSystemBars(R.color.gender,R.color.gender,false);
+
         tvFullName = findViewById(R.id.tv_fullname);
         tvEmail = findViewById(R.id.tv_email);
         tvPhone = findViewById(R.id.tv_phone);
