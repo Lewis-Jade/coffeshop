@@ -1,11 +1,14 @@
 package com.example.coffeecafe;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.MotionEvent;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.activity.EdgeToEdge;
@@ -18,6 +21,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText etPassword;
+    Button buttonLogin;
     private boolean isPasswordVisible = false;
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -38,6 +42,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
         etPassword = findViewById(R.id.ev_password);
+        buttonLogin = findViewById(R.id.bv_login);
         final boolean[] isPasswordVisible = {false};
 
         etPassword.setOnTouchListener((v, event) -> {
@@ -59,6 +64,13 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
             return false;
+        });
+
+        buttonLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(), DashBoard.class));
+            }
         });
 
 
