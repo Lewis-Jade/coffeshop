@@ -42,7 +42,13 @@ public class CheckoutActivity extends AppCompatActivity {
 
         // Initialize Paystack with public key from BuildConfig
         PaystackSdk.initialize(getApplicationContext());
-        PaystackSdk.setPublicKey(Constants.getPaystackPublicKey());
+        String paystackKey = Constants.getPaystackPublicKey();
+        if (paystackKey == null || paystackKey.isEmpty()) {
+            Toast.makeText(this, "Paystack not configured. Please set up local.properties file.", Toast.LENGTH_LONG).show();
+            finish();
+            return;
+        }
+        PaystackSdk.setPublicKey(paystackKey);
 
         cartManager = CartManager.getInstance(this);
         sessionManager = SessionManager.getInstance(this);

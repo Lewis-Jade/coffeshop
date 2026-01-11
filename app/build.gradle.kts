@@ -1,12 +1,17 @@
+import java.util.Properties
+import java.io.FileInputStream
+
 plugins {
     alias(libs.plugins.android.application)
 }
 
-android.buildFeatures.buildConfig = true
-
 android {
     namespace = "com.example.coffeecafe"
     compileSdk = 36
+    
+    buildFeatures {
+        buildConfig = true
+    }
 
     defaultConfig {
         applicationId = "com.example.coffeecafe"
@@ -18,19 +23,16 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         
         // Load credentials from local.properties
-        val properties = org.jetbrains.kotlin.konan.properties.Properties()
+        val properties = Properties()
         val localPropertiesFile = rootProject.file("local.properties")
         if (localPropertiesFile.exists()) {
-            properties.load(localPropertiesFile.inputStream())
-            buildConfigField("String", "SUPABASE_URL", "\"${properties.getProperty("supabase.url", "")}\"")
-            buildConfigField("String", "SUPABASE_KEY", "\"${properties.getProperty("supabase.key", "")}\"")
-            buildConfigField("String", "PAYSTACK_KEY", "\"${properties.getProperty("paystack.key", "")}\"")
-        } else {
-            // Default empty values if local.properties doesn't exist
-            buildConfigField("String", "SUPABASE_URL", "\"\"")
-            buildConfigField("String", "SUPABASE_KEY", "\"\"")
-            buildConfigField("String", "PAYSTACK_KEY", "\"\"")
+            FileInputStream(localPropertiesFile).use { properties.load(it) }
         }
+        
+        // Set BuildConfig fields
+        buildConfigField("String", "SUPABASE_URL", "\"${properties.getProperty("supabase.url") ?: ""}\"")
+        buildConfigField("String", "SUPABASE_KEY", "\"${properties.getProperty("supabase.key") ?: ""}\"")
+        buildConfigField("String", "PAYSTACK_KEY", "\"${properties.getProperty("paystack.key") ?: ""}\"")
     }
 
     buildTypes {
@@ -45,6 +47,12 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
+    }
+    
+    packaging {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        }
     }
 }
 

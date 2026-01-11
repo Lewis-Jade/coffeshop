@@ -32,6 +32,14 @@ public class SupabaseClient {
         if (this.supabaseUrl == null) {
             this.supabaseUrl = Constants.getSupabaseUrl();
             this.supabaseKey = Constants.getSupabaseAnonKey();
+            
+            // Validate credentials
+            if (this.supabaseUrl == null || this.supabaseUrl.isEmpty()) {
+                throw new IllegalStateException("Supabase URL not configured. Please set up local.properties file.");
+            }
+            if (this.supabaseKey == null || this.supabaseKey.isEmpty()) {
+                throw new IllegalStateException("Supabase Key not configured. Please set up local.properties file.");
+            }
         }
     }
 
