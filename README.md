@@ -1,5 +1,7 @@
 # ☕ MMUST Mobile Coffee Shop Application
 
+> Modern mobile coffee shop application with digital ordering and M-Pesa payments for Masinde Muliro University of Science and Technology.
+
 ## 📌 Project Overview
 Students and staff at **Masinde Muliro University of Science and Technology (MMUST)** frequently experience long queues and delays when purchasing food and beverages at campus coffee shops. The existing **manual ordering and payment process** is slow, inconvenient, and does not support digital payments, despite the growing preference for mobile payment solutions.
 
@@ -75,5 +77,93 @@ To solve this problem, this project proposes a **mobile coffee shop application*
 
 ---
 
-## 🚀 Conclusion
-The MMUST Mobile Coffee Shop Application provides a modern, efficient, and secure solution for campus coffee shop operations. By integrating digital ordering and M-Pesa payments, the system enhances convenience, reduces queues, and significantly improves the overall user experience.
+## 🚀 Quick Start
+
+### For New Developers:
+```bash
+# 1. Clone
+git clone https://github.com/sibby-killer/coffeshop.git
+cd coffeshop
+
+# 2. Setup credentials
+cp local.properties.template local.properties
+# Edit local.properties with your Supabase and Paystack credentials
+
+# 3. Build and run
+./gradlew build
+```
+
+📖 **Full setup guide**: See [documentation/SETUP_GUIDE.md](documentation/SETUP_GUIDE.md)
+
+---
+
+## 📚 Documentation
+
+All documentation is in the **[documentation/](documentation/)** folder:
+
+| Document | Description |
+|----------|-------------|
+| **[SETUP_GUIDE.md](documentation/SETUP_GUIDE.md)** | Quick 2-minute setup (START HERE) |
+| **[SUPABASE_SETUP.md](documentation/SUPABASE_SETUP.md)** | Database setup and configuration |
+| **[DEPLOYMENT_GUIDE.md](documentation/DEPLOYMENT_GUIDE.md)** | Complete deployment instructions |
+| **[TROUBLESHOOTING.md](documentation/TROUBLESHOOTING.md)** | Common issues and solutions |
+| **[README_IMPLEMENTATION.md](documentation/README_IMPLEMENTATION.md)** | Technical implementation details |
+| **[PROJECT_SUMMARY.md](documentation/PROJECT_SUMMARY.md)** | Project overview and metrics |
+
+---
+
+## 🛠️ Tech Stack
+
+- **Frontend**: Native Android (Java 11)
+- **Backend**: Supabase (PostgreSQL, Auth, Realtime)
+- **Payments**: Paystack (M-Pesa integration)
+- **Build**: Gradle (Kotlin DSL)
+- **Min SDK**: 24 (Android 7.0)
+
+---
+
+## ✨ Features
+
+✅ User authentication (email/phone)
+✅ Product browsing with images
+✅ Shopping cart management
+✅ M-Pesa payments via Paystack
+✅ Order tracking
+✅ Secure credential management
+✅ Responsive UI for all screen sizes
+
+---
+
+## 🔐 Security
+
+- No hardcoded credentials
+- BuildConfig-based credential injection
+- Row Level Security (RLS) in database
+- HTTPS-only communication
+- PCI-compliant payments via Paystack
+
+---
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Copy `local.properties.template` to `local.properties`
+3. Add your own credentials
+4. Make your changes
+5. Submit a pull request
+
+---
+
+## 📝 License
+
+This project is for educational purposes at MMUST.
+
+---
+
+## 🎯 Project Status
+
+✅ **Production Ready** - All core features implemented and tested
+
+---
+
+**Need help?** Check the [documentation folder](documentation/) for comprehensive guides!

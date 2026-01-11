@@ -111,17 +111,23 @@ CREATE POLICY "Products are viewable by everyone"
 CREATE POLICY "Products are insertable by authenticated users"
     ON products FOR INSERT
     TO authenticated
-    WITH CHECK (auth.jwt() ->> 'user_metadata'->>'is_admin' = 'true');
+    WITH CHECK (
+        (auth.jwt() -> 'user_metadata' ->> 'is_admin')::boolean = true
+    );
 
 CREATE POLICY "Products are updatable by admin"
     ON products FOR UPDATE
     TO authenticated
-    USING (auth.jwt() ->> 'user_metadata'->>'is_admin' = 'true');
+    USING (
+        (auth.jwt() -> 'user_metadata' ->> 'is_admin')::boolean = true
+    );
 
 CREATE POLICY "Products are deletable by admin"
     ON products FOR DELETE
     TO authenticated
-    USING (auth.jwt() ->> 'user_metadata'->>'is_admin' = 'true');
+    USING (
+        (auth.jwt() -> 'user_metadata' ->> 'is_admin')::boolean = true
+    );
 
 -- Orders Policies (users can only see their own orders, admins see all)
 CREATE POLICY "Users can view their own orders"
