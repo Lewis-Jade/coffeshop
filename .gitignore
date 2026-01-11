@@ -12,8 +12,10 @@
 .externalNativeBuild
 .cxx
 
-# Local configuration with credentials (NEVER COMMIT)
+# ============================================
+# IMPORTANT: Local credentials (NEVER COMMIT)
+# ============================================
 local.properties
 
-# Configuration files with credentials (NEVER COMMIT)
+# Other credential files
 app/src/main/res/values/config.xml
