@@ -7,14 +7,10 @@ appcompat = "1.7.1"
 material = "1.13.0"
 activity = "1.10.0"
 constraintlayout = "2.2.1"
-supabase = "2.0.0"
-ktor = "2.3.7"
-kotlinxSerialization = "1.6.2"
-kotlinxDatetime = "0.5.0"
 lifecycleViewmodel = "2.7.0"
 room = "2.6.1"
 gson = "2.10.1"
-paystackAndroid = "3.1.7"
+paystackAndroid = "3.1.5"
 okhttp = "4.12.0"
 
 [libraries]
@@ -25,20 +21,6 @@ appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "a
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
-
-# Supabase
-supabase-postgrest = { group = "io.github.jan-tennert.supabase", name = "postgrest-kt", version.ref = "supabase" }
-supabase-gotrue = { group = "io.github.jan-tennert.supabase", name = "gotrue-kt", version.ref = "supabase" }
-supabase-realtime = { group = "io.github.jan-tennert.supabase", name = "realtime-kt", version.ref = "supabase" }
-
-# Ktor (required for Supabase)
-ktor-client-android = { group = "io.ktor", name = "ktor-client-android", version.ref = "ktor" }
-ktor-client-core = { group = "io.ktor", name = "ktor-client-core", version.ref = "ktor" }
-ktor-utils = { group = "io.ktor", name = "ktor-utils", version.ref = "ktor" }
-
-# Kotlinx Serialization
-kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
-kotlinx-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version.ref = "kotlinxDatetime" }
 
 # Lifecycle
 lifecycle-viewmodel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodel" }
@@ -51,8 +33,6 @@ room-compiler = { group = "androidx.room", name = "room-compiler", version.ref =
 # Gson
 gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
 
-# Paystack
-paystack-android = { group = "co.paystack.android", name = "paystack", version.ref = "paystackAndroid" }
 
 # OkHttp
 okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp" }
