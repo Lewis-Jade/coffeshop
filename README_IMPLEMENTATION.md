@@ -175,12 +175,19 @@ See `SUPABASE_SETUP.md` for complete schema and RLS policies.
 
 ### 2. Configuration:
 
-**Update `Constants.java`:**
-```java
-public static final String SUPABASE_URL = "YOUR_SUPABASE_URL";
-public static final String SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY";
-public static final String PAYSTACK_PUBLIC_KEY = "YOUR_PAYSTACK_PUBLIC_KEY";
+**Create config.xml from template:**
+```bash
+cp app/src/main/res/values/config.xml.template app/src/main/res/values/config.xml
 ```
+
+**Update `config.xml` with your credentials:**
+```xml
+<string name="supabase_url">https://yourproject.supabase.co</string>
+<string name="supabase_anon_key">your_anon_key</string>
+<string name="paystack_public_key">pk_test_your_key</string>
+```
+
+**🔐 Note**: Credentials are NOT hardcoded. See `CREDENTIAL_SETUP.md` for details.
 
 ### 3. Database Setup:
 Follow the SQL commands in `SUPABASE_SETUP.md` to create tables and RLS policies.

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 
+    CONFIGURATION TEMPLATE
+    
+    Copy this file to config.xml and replace the placeholder values with your actual credentials.
+    
+    Steps:
+    1. Copy this file: config.xml.template -> config.xml
+    2. Replace YOUR_SUPABASE_URL with your Supabase project URL
+    3. Replace YOUR_SUPABASE_ANON_KEY with your Supabase anon/public key
+    4. Replace YOUR_PAYSTACK_PUBLIC_KEY with your Paystack public key
+    
+    Note: config.xml is in .gitignore to prevent accidental credential commits
+    -->
+    
+    <!-- Supabase Configuration -->
+    <!-- Get these from: https://supabase.com/dashboard/project/_/settings/api -->
+    <string name="supabase_url">YOUR_SUPABASE_URL</string>
+    <string name="supabase_anon_key">YOUR_SUPABASE_ANON_KEY</string>
+    
+    <!-- Paystack Configuration -->
+    <!-- Get this from: https://dashboard.paystack.com/#/settings/developer -->
+    <string name="paystack_public_key">YOUR_PAYSTACK_PUBLIC_KEY</string>
+</resources>

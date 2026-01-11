@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.coffeecafe.models.CartItem;
 import com.example.coffeecafe.repositories.OrderRepository;
 import com.example.coffeecafe.utils.CartManager;
+import com.example.coffeecafe.utils.Constants;
 import com.example.coffeecafe.utils.SessionManager;
 import co.paystack.android.Paystack;
 import co.paystack.android.PaystackSdk;
@@ -39,8 +40,9 @@ public class CheckoutActivity extends AppCompatActivity {
         SystemHelper systemHelper = new SystemHelper(this);
         systemHelper.setSystemBars(R.color.gender, R.color.gender, false);
 
-        // Initialize Paystack
+        // Initialize Paystack with public key from config
         PaystackSdk.initialize(getApplicationContext());
+        PaystackSdk.setPublicKey(Constants.getPaystackPublicKey(this));
 
         cartManager = CartManager.getInstance(this);
         sessionManager = SessionManager.getInstance(this);

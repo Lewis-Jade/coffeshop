@@ -75,25 +75,48 @@ The SQL script automatically sets up RLS policies. Verify in:
 
 ### 4. Configure Application
 
-#### 4.1 Update Constants.java
+#### 4.1 Create Configuration File
 
-Open: `app/src/main/java/com/example/coffeecafe/utils/Constants.java`
+**Option 1: Copy Template (Recommended)**
+
+```bash
+# Windows
+Copy-Item app/src/main/res/values/config.xml.template app/src/main/res/values/config.xml
+
+# Mac/Linux
+cp app/src/main/res/values/config.xml.template app/src/main/res/values/config.xml
+```
+
+**Option 2: Manual Copy**
+1. Navigate to `app/src/main/res/values/`
+2. Copy `config.xml.template`
+3. Rename the copy to `config.xml`
+
+#### 4.2 Update Credentials in config.xml
+
+Open: `app/src/main/res/values/config.xml`
 
 Replace the placeholders:
 
-```java
-// Supabase Configuration
-public static final String SUPABASE_URL = "https://xxxxx.supabase.co"; // Your Project URL
-public static final String SUPABASE_ANON_KEY = "eyJhbGc..."; // Your Anon Key
-
-// Paystack Configuration
-public static final String PAYSTACK_PUBLIC_KEY = "pk_test_xxxxx"; // Your Public Key
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Supabase Configuration -->
+    <string name="supabase_url">https://yourproject.supabase.co</string>
+    <string name="supabase_anon_key">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...</string>
+    
+    <!-- Paystack Configuration -->
+    <string name="paystack_public_key">pk_test_your_actual_key_here</string>
+</resources>
 ```
 
 **⚠️ Important Security Notes:**
+- `config.xml` is in .gitignore (won't be committed)
 - Never commit real API keys to version control
-- Use environment variables for production
-- Keep Anon Key safe (it has RLS protection)
+- Each developer creates their own `config.xml`
+- Keep credentials secure and private
+
+📖 **For detailed credential setup, see `CREDENTIAL_SETUP.md`**
 
 ---
 

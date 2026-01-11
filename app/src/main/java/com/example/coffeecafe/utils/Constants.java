@@ -1,14 +1,38 @@
 package com.example.coffeecafe.utils;
 
+import android.content.Context;
+
 public class Constants {
-    // Supabase Configuration
-    // TODO: Replace with your actual Supabase URL and Anon Key
-    public static final String SUPABASE_URL = "YOUR_SUPABASE_URL";
-    public static final String SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY";
+    // Credentials are now loaded from res/values/config.xml
+    // This prevents hardcoding sensitive data in code
     
-    // Paystack Configuration
-    // TODO: Replace with your actual Paystack Public Key
-    public static final String PAYSTACK_PUBLIC_KEY = "YOUR_PAYSTACK_PUBLIC_KEY";
+    private static String supabaseUrl = null;
+    private static String supabaseAnonKey = null;
+    private static String paystackPublicKey = null;
+    
+    // Initialize credentials from resources
+    public static void initialize(Context context) {
+        if (supabaseUrl == null) {
+            supabaseUrl = context.getString(R.string.supabase_url);
+            supabaseAnonKey = context.getString(R.string.supabase_anon_key);
+            paystackPublicKey = context.getString(R.string.paystack_public_key);
+        }
+    }
+    
+    public static String getSupabaseUrl(Context context) {
+        initialize(context);
+        return supabaseUrl;
+    }
+    
+    public static String getSupabaseAnonKey(Context context) {
+        initialize(context);
+        return supabaseAnonKey;
+    }
+    
+    public static String getPaystackPublicKey(Context context) {
+        initialize(context);
+        return paystackPublicKey;
+    }
     
     // SharedPreferences Keys
     public static final String PREFS_NAME = "CoffeeCafePrefs";

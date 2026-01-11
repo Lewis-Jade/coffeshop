@@ -13,3 +13,7 @@
 .externalNativeBuild
 .cxx
 local.properties
+
+# Configuration files with credentials
+# Keep template, ignore actual config
+app/src/main/res/values/config.xml

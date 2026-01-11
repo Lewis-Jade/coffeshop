@@ -21,13 +21,18 @@ public class SupabaseClient {
     private String authToken;
 
     private SupabaseClient() {
-        this.supabaseUrl = Constants.SUPABASE_URL;
-        this.supabaseKey = Constants.SUPABASE_ANON_KEY;
         this.httpClient = new OkHttpClient.Builder()
                 .connectTimeout(30, TimeUnit.SECONDS)
                 .readTimeout(30, TimeUnit.SECONDS)
                 .writeTimeout(30, TimeUnit.SECONDS)
                 .build();
+    }
+    
+    public void initialize(Context context) {
+        if (this.supabaseUrl == null) {
+            this.supabaseUrl = Constants.getSupabaseUrl(context);
+            this.supabaseKey = Constants.getSupabaseAnonKey(context);
+        }
     }
 
     public static synchronized SupabaseClient getInstance() {
