@@ -77,46 +77,38 @@ The SQL script automatically sets up RLS policies. Verify in:
 
 #### 4.1 Create Configuration File
 
-**Option 1: Copy Template (Recommended)**
+**Copy the template:**
 
 ```bash
 # Windows
-Copy-Item app/src/main/res/values/config.xml.template app/src/main/res/values/config.xml
+Copy-Item local.properties.template local.properties
 
 # Mac/Linux
-cp app/src/main/res/values/config.xml.template app/src/main/res/values/config.xml
+cp local.properties.template local.properties
 ```
 
-**Option 2: Manual Copy**
-1. Navigate to `app/src/main/res/values/`
-2. Copy `config.xml.template`
-3. Rename the copy to `config.xml`
+#### 4.2 Update Credentials in local.properties
 
-#### 4.2 Update Credentials in config.xml
-
-Open: `app/src/main/res/values/config.xml`
+Open: `local.properties` (in project root)
 
 Replace the placeholders:
 
-```xml
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <!-- Supabase Configuration -->
-    <string name="supabase_url">https://yourproject.supabase.co</string>
-    <string name="supabase_anon_key">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...</string>
-    
-    <!-- Paystack Configuration -->
-    <string name="paystack_public_key">pk_test_your_actual_key_here</string>
-</resources>
+```properties
+# Supabase Configuration
+supabase.url=https://yourproject.supabase.co
+supabase.key=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+
+# Paystack Configuration
+paystack.key=pk_test_your_actual_key_here
 ```
 
 **⚠️ Important Security Notes:**
-- `config.xml` is in .gitignore (won't be committed)
+- `local.properties` is in .gitignore (won't be committed)
 - Never commit real API keys to version control
-- Each developer creates their own `config.xml`
+- Each developer creates their own `local.properties`
 - Keep credentials secure and private
 
-📖 **For detailed credential setup, see `CREDENTIAL_SETUP.md`**
+📖 **For detailed credential setup, see `SETUP_GUIDE.md`**
 
 ---
 

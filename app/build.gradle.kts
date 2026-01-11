@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.android.application)
 }
 
+android.buildFeatures.buildConfig = true
+
 android {
     namespace = "com.example.coffeecafe"
     compileSdk = 36
@@ -14,6 +16,21 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        
+        // Load credentials from local.properties
+        val properties = org.jetbrains.kotlin.konan.properties.Properties()
+        val localPropertiesFile = rootProject.file("local.properties")
+        if (localPropertiesFile.exists()) {
+            properties.load(localPropertiesFile.inputStream())
+            buildConfigField("String", "SUPABASE_URL", "\"${properties.getProperty("supabase.url", "")}\"")
+            buildConfigField("String", "SUPABASE_KEY", "\"${properties.getProperty("supabase.key", "")}\"")
+            buildConfigField("String", "PAYSTACK_KEY", "\"${properties.getProperty("paystack.key", "")}\"")
+        } else {
+            // Default empty values if local.properties doesn't exist
+            buildConfigField("String", "SUPABASE_URL", "\"\"")
+            buildConfigField("String", "SUPABASE_KEY", "\"\"")
+            buildConfigField("String", "PAYSTACK_KEY", "\"\"")
+        }
     }
 
     buildTypes {

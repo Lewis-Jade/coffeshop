@@ -1,37 +1,21 @@
 package com.example.coffeecafe.utils;
 
-import android.content.Context;
+import com.example.coffeecafe.BuildConfig;
 
 public class Constants {
-    // Credentials are now loaded from res/values/config.xml
-    // This prevents hardcoding sensitive data in code
+    // Credentials are loaded from local.properties via BuildConfig
+    // This prevents hardcoding and allows secure collaboration
     
-    private static String supabaseUrl = null;
-    private static String supabaseAnonKey = null;
-    private static String paystackPublicKey = null;
-    
-    // Initialize credentials from resources
-    public static void initialize(Context context) {
-        if (supabaseUrl == null) {
-            supabaseUrl = context.getString(R.string.supabase_url);
-            supabaseAnonKey = context.getString(R.string.supabase_anon_key);
-            paystackPublicKey = context.getString(R.string.paystack_public_key);
-        }
+    public static String getSupabaseUrl() {
+        return BuildConfig.SUPABASE_URL;
     }
     
-    public static String getSupabaseUrl(Context context) {
-        initialize(context);
-        return supabaseUrl;
+    public static String getSupabaseAnonKey() {
+        return BuildConfig.SUPABASE_KEY;
     }
     
-    public static String getSupabaseAnonKey(Context context) {
-        initialize(context);
-        return supabaseAnonKey;
-    }
-    
-    public static String getPaystackPublicKey(Context context) {
-        initialize(context);
-        return paystackPublicKey;
+    public static String getPaystackPublicKey() {
+        return BuildConfig.PAYSTACK_KEY;
     }
     
     // SharedPreferences Keys

@@ -28,10 +28,10 @@ public class SupabaseClient {
                 .build();
     }
     
-    public void initialize(Context context) {
+    public void initialize() {
         if (this.supabaseUrl == null) {
-            this.supabaseUrl = Constants.getSupabaseUrl(context);
-            this.supabaseKey = Constants.getSupabaseAnonKey(context);
+            this.supabaseUrl = Constants.getSupabaseUrl();
+            this.supabaseKey = Constants.getSupabaseAnonKey();
         }
     }
 

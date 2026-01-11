@@ -40,9 +40,9 @@ public class CheckoutActivity extends AppCompatActivity {
         SystemHelper systemHelper = new SystemHelper(this);
         systemHelper.setSystemBars(R.color.gender, R.color.gender, false);
 
-        // Initialize Paystack with public key from config
+        // Initialize Paystack with public key from BuildConfig
         PaystackSdk.initialize(getApplicationContext());
-        PaystackSdk.setPublicKey(Constants.getPaystackPublicKey(this));
+        PaystackSdk.setPublicKey(Constants.getPaystackPublicKey());
 
         cartManager = CartManager.getInstance(this);
         sessionManager = SessionManager.getInstance(this);

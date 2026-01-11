@@ -175,19 +175,19 @@ See `SUPABASE_SETUP.md` for complete schema and RLS policies.
 
 ### 2. Configuration:
 
-**Create config.xml from template:**
+**Create local.properties from template:**
 ```bash
-cp app/src/main/res/values/config.xml.template app/src/main/res/values/config.xml
+cp local.properties.template local.properties
 ```
 
-**Update `config.xml` with your credentials:**
-```xml
-<string name="supabase_url">https://yourproject.supabase.co</string>
-<string name="supabase_anon_key">your_anon_key</string>
-<string name="paystack_public_key">pk_test_your_key</string>
+**Update `local.properties` with your credentials:**
+```properties
+supabase.url=https://yourproject.supabase.co
+supabase.key=your_anon_key
+paystack.key=pk_test_your_key
 ```
 
-**🔐 Note**: Credentials are NOT hardcoded. See `CREDENTIAL_SETUP.md` for details.
+**🔐 Note**: Credentials are loaded via BuildConfig at build time. See `SETUP_GUIDE.md` for details.
 
 ### 3. Database Setup:
 Follow the SQL commands in `SUPABASE_SETUP.md` to create tables and RLS policies.

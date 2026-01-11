@@ -10,6 +10,10 @@
        android:id="@+id/drinks_recycler_view"
        android:layout_width="match_parent"
        android:layout_height="match_parent"
+       android:clipToPadding="false"
+       android:paddingTop="8dp"
+       android:paddingBottom="8dp"
+       android:paddingHorizontal="4dp"
        app:layout_constraintBottom_toBottomOf="parent"
        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

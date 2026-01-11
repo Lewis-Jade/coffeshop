@@ -1,6 +1,5 @@
 *.iml
 .gradle
-/local.properties
 /.idea/caches
 /.idea/libraries
 /.idea/modules.xml
@@ -12,8 +11,9 @@
 /captures
 .externalNativeBuild
 .cxx
+
+# Local configuration with credentials (NEVER COMMIT)
 local.properties
 
-# Configuration files with credentials
-# Keep template, ignore actual config
+# Configuration files with credentials (NEVER COMMIT)
 app/src/main/res/values/config.xml
