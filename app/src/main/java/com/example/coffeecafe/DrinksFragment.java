@@ -31,11 +31,11 @@ public class DrinksFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         itemList = new ArrayList<>();
 
-        itemList.add(new DrinksModel("Latte","Ksh.10","Smooth milk coffee",R.drawable.coffee_withmilk));
-         itemList.add(new DrinksModel("Cappuccino","Ksh.15","Strong and creamy",R.drawable.white_cup_hot_chocolate));
-         itemList.add(new DrinksModel("Espresso","Ksh.20","Bold and pure",R.drawable.espresso_coffee));
+        itemList.add(new DrinksModel("Latte",10,"Smooth milk coffee",R.drawable.coffee_withmilk));
+         itemList.add(new DrinksModel("Cappuccino",20,"Strong and creamy",R.drawable.white_cup_hot_chocolate));
+         itemList.add(new DrinksModel("Espresso",30,"Bold and pure",R.drawable.espresso_coffee));
 
-         DrinksAdapter drinksAdapter = new DrinksAdapter(itemList);
+         DrinksAdapter drinksAdapter = new DrinksAdapter( requireActivity(),itemList);
          recyclerView.setAdapter(drinksAdapter);
         return view;
     }

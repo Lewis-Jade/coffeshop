@@ -7,4 +7,6 @@
     <color name="btn_bg">#B57D58</color>
     <color name="gender">#281509</color>
     <color name="conf_dtl">#684027</color>
+    <color name="ic_plus">#0CC017</color>
+    <color name="ic_minus">#F20909</color>
 </resources>

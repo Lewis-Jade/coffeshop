@@ -1,11 +1,13 @@
 package com.example.coffeecafe;
 
-public class DrinksModel {
-    String name,price,description;
-    int image;
+import java.io.Serializable;
+
+public class DrinksModel implements Serializable {
+    String name,description;
+    int image,price;
 
 
-    public DrinksModel(String name, String price, String description, int image) {
+    public DrinksModel(String name, int price, String description, int image) {
         this.name = name;
         this.price = price;
         this.description = description;
@@ -20,12 +22,12 @@ public class DrinksModel {
         this.name = name;
     }
 
-    public String getPrice() {
+    public int getPrice() {
         return price;
     }
 
     public void setPrice(String price) {
-        this.price = price;
+        this.price = Integer.parseInt(price);
     }
 
     public String getDescription() {
