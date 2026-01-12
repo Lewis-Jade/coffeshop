@@ -42,7 +42,15 @@ public class CheckoutActivity extends AppCompatActivity {
         cartManager = CartManager.getInstance(this);
         sessionManager = SessionManager.getInstance(this);
         orderRepository = new OrderRepository(this);
-        paystackManager = PaystackManager.getInstance(this);
+        
+        // Initialize PaystackManager with error handling
+        try {
+            paystackManager = PaystackManager.getInstance(this);
+        } catch (IllegalStateException e) {
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
+            finish();
+            return;
+        }
         
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Processing payment...");

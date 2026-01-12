@@ -20,6 +20,16 @@ public class PaystackManager {
     private PaystackManager(Context context) {
         this.httpClient = new OkHttpClient();
         this.publicKey = Constants.getPaystackPublicKey();
+        
+        // Validate public key
+        if (this.publicKey == null || this.publicKey.isEmpty() || 
+            this.publicKey.equals("") || this.publicKey.equals("YOUR_PAYSTACK_PUBLIC_KEY")) {
+            throw new IllegalStateException(
+                "Paystack public key not configured!\n" +
+                "Please add your Paystack key to local.properties:\n" +
+                "paystack.key=pk_test_your_actual_key_here"
+            );
+        }
     }
 
     public static synchronized PaystackManager getInstance(Context context) {
