@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/tv_checkout_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Checkout"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="@color/gender"
+            android:fontFamily="@font/poppins_regular"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_order_summary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Order Summary"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/gender"
+            android:fontFamily="@font/poppins_regular"
+            android:layout_marginTop="24dp"
+            app:layout_constraintTop_toBottomOf="@id/tv_checkout_title"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/checkout_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:nestedScrollingEnabled="false"
+            app:layout_constraintTop_toBottomOf="@id/tv_order_summary" />
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gender"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@id/checkout_recycler_view" />
+
+        <TextView
+            android:id="@+id/tv_total_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Total Amount:"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/gender"
+            android:fontFamily="@font/poppins_regular"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@id/divider"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/checkout_total"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ksh 0"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/gender"
+            android:fontFamily="@font/poppins_regular"
+            app:layout_constraintTop_toTopOf="@id/tv_total_label"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_payment_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Payment Details"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/gender"
+            android:fontFamily="@font/poppins_regular"
+            android:layout_marginTop="24dp"
+            app:layout_constraintTop_toBottomOf="@id/tv_total_label"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_email_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Email:"
+            android:textSize="16sp"
+            android:textColor="@color/gender"
+            android:fontFamily="@font/poppins_regular"
+            android:layout_marginTop="12dp"
+            app:layout_constraintTop_toBottomOf="@id/tv_payment_info"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/checkout_email"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="user@example.com"
+            android:textSize="16sp"
+            android:textColor="@color/gender"
+            android:fontFamily="@font/poppins_regular"
+            android:layout_marginStart="8dp"
+            app:layout_constraintTop_toTopOf="@id/tv_email_label"
+            app:layout_constraintStart_toEndOf="@id/tv_email_label"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <Button
+            android:id="@+id/btn_pay_with_mpesa"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Pay with M-PESA"
+            android:textAllCaps="false"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/poppins_regular"
+            android:textColor="@color/tagline"
+            android:background="@drawable/btn_bg"
+            android:paddingVertical="14dp"
+            android:layout_marginTop="32dp"
+            app:layout_constraintTop_toBottomOf="@id/checkout_email" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

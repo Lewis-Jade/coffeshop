@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginVertical="6dp"
+    android:padding="8dp"
+    android:background="@drawable/item_view_design">
+
+    <ImageView
+        android:id="@+id/checkout_item_image"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/logo"
+        android:scaleType="centerCrop"
+        android:background="@drawable/bordes_drwd"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <TextView
+        android:id="@+id/checkout_item_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Cappuccino"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:textColor="@color/tagline"
+        android:fontFamily="@font/poppins_regular"
+        android:layout_marginStart="12dp"
+        app:layout_constraintStart_toEndOf="@id/checkout_item_image"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/checkout_item_quantity" />
+
+    <TextView
+        android:id="@+id/checkout_item_quantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="x2"
+        android:textSize="14sp"
+        android:textColor="@color/tagline"
+        android:fontFamily="@font/poppins_regular"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toStartOf="@id/checkout_item_price"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <TextView
+        android:id="@+id/checkout_item_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ksh 500"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:textColor="@color/tagline"
+        android:fontFamily="@font/poppins_regular"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

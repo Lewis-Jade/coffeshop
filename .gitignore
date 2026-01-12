@@ -1,6 +1,5 @@
 *.iml
 .gradle
-/local.properties
 /.idea/caches
 /.idea/libraries
 /.idea/modules.xml
@@ -12,4 +11,11 @@
 /captures
 .externalNativeBuild
 .cxx
+
+# ============================================
+# IMPORTANT: Local credentials (NEVER COMMIT)
+# ============================================
 local.properties
+
+# Other credential files
+app/src/main/res/values/config.xml

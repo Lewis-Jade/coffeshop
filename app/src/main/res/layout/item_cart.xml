@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="12dp"
+    android:layout_marginVertical="8dp"
+    android:padding="12dp"
+    android:background="@drawable/item_view_design"
+    android:elevation="4dp">
+
+    <ImageView
+        android:id="@+id/cart_item_image"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@drawable/logo"
+        android:scaleType="centerCrop"
+        android:background="@drawable/bordes_drwd"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <TextView
+        android:id="@+id/cart_item_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Cappuccino"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="@color/tagline"
+        android:fontFamily="@font/poppins_regular"
+        android:layout_marginStart="12dp"
+        app:layout_constraintStart_toEndOf="@id/cart_item_image"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/cart_btn_remove" />
+
+    <TextView
+        android:id="@+id/cart_item_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ksh 250"
+        android:textSize="14sp"
+        android:textColor="@color/tagline"
+        android:fontFamily="@font/poppins_regular"
+        android:layout_marginStart="12dp"
+        app:layout_constraintStart_toEndOf="@id/cart_item_image"
+        app:layout_constraintTop_toBottomOf="@id/cart_item_name" />
+
+    <ImageButton
+        android:id="@+id/cart_btn_remove"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:src="@android:drawable/ic_menu_close_clear_cancel"
+        android:background="@android:color/transparent"
+        android:tint="@color/ic_minus"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/quantity_controls"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@drawable/bordes_drwd"
+        android:padding="4dp"
+        android:gravity="center_vertical"
+        android:layout_marginStart="12dp"
+        app:layout_constraintStart_toEndOf="@id/cart_item_image"
+        app:layout_constraintTop_toBottomOf="@id/cart_item_price"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <ImageButton
+            android:id="@+id/cart_btn_minus"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:background="@drawable/bordes_drwd"
+            android:src="@drawable/ic_minus" />
+
+        <TextView
+            android:id="@+id/cart_item_quantity"
+            android:layout_width="35dp"
+            android:layout_height="wrap_content"
+            android:text="1"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/poppins_regular"
+            android:textStyle="bold"
+            android:gravity="center" />
+
+        <ImageButton
+            android:id="@+id/cart_btn_plus"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:background="@drawable/bordes_drwd"
+            android:src="@drawable/ic_plus" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/cart_item_subtotal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ksh 500"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="@color/tagline"
+        android:fontFamily="@font/poppins_regular"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -22,6 +22,25 @@ Button registerUser,loginUser;
         SystemHelper systemHelper = new SystemHelper(this);
         systemHelper.setSystemBars(R.color.gender,R.color.gender,false);
 
+        // Check if user is already logged in
+        com.example.coffeecafe.utils.SessionManager sessionManager = 
+            com.example.coffeecafe.utils.SessionManager.getInstance(this);
+        
+        // Verify BuildConfig credentials are loaded
+        if (com.example.coffeecafe.BuildConfig.SUPABASE_URL.isEmpty()) {
+            android.widget.Toast.makeText(this, 
+                "Configuration error: Please set up local.properties file", 
+                android.widget.Toast.LENGTH_LONG).show();
+            // Continue to allow viewing the app structure
+        }
+        
+        if (sessionManager.isLoggedIn()) {
+            sessionManager.restoreSession();
+            startActivity(new Intent(MainActivity.this, DashBoard.class));
+            finish();
+            return;
+        }
+
         registerUser = findViewById(R.id.bv_register);
         loginUser = findViewById(R.id.bv_login);
 

@@ -77,11 +77,23 @@ public class CoffeeDetailFragment extends Fragment {
         });
 
         addToCartButton.setOnClickListener(v -> {
+            // Add to cart using CartManager
+            com.example.coffeecafe.models.CartItem cartItem = new com.example.coffeecafe.models.CartItem();
+            cartItem.setProductId(String.valueOf(drinksModel.getImage())); // Using image resource as temp ID
+            cartItem.setProductName(drinksModel.getName());
+            cartItem.setProductDescription(drinksModel.getDescription());
+            cartItem.setProductPrice(drinksModel.getPrice());
+            cartItem.setQuantity(quantity);
+            cartItem.setLocalImageResource(drinksModel.getImage());
+            
+            com.example.coffeecafe.utils.CartManager.getInstance(requireContext()).addToCart(cartItem);
+            
             Toast.makeText(getContext(),
                     quantity + " x " + drinksModel.getName() + " added to cart!",
                     Toast.LENGTH_SHORT).show();
-
-            // Optional: update a Shared ViewModel or local DB for the cart
+            
+            // Navigate back to drinks list
+            requireActivity().getSupportFragmentManager().popBackStack();
         });
         return view;
     }

@@ -1,8 +1,10 @@
 package com.example.coffeecafe;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.MotionEvent;
@@ -20,6 +22,12 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.coffeecafe.config.SupabaseClient;
+import com.example.coffeecafe.utils.SessionManager;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class SignupActivity extends AppCompatActivity {
     private EditText etFullName,etEmail,etPhone,etPassword, etConfirmPassword;
     private String getFullName,getEmail,getPhone,getPassword,getConfirmedPassword,gender;
@@ -27,6 +35,9 @@ public class SignupActivity extends AppCompatActivity {
     private RadioButton radioMale,radioFemale,selectedGender;
     private boolean isPasswordVisible = false;
     private boolean isConfirmPasswordVisible = false;
+    private ProgressDialog progressDialog;
+    private SupabaseClient supabaseClient;
+    private SessionManager sessionManager;
 
     private Button registerUser;
     @SuppressLint("ClickableViewAccessibility")
@@ -42,6 +53,13 @@ public class SignupActivity extends AppCompatActivity {
         });
         SystemHelper systemHelper = new SystemHelper(this);
         systemHelper.setSystemBars(R.color.gender,R.color.gender,false);
+
+        // Initialize
+        supabaseClient = SupabaseClient.getInstance();
+        sessionManager = SessionManager.getInstance(this);
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Creating account...");
+        progressDialog.setCancelable(false);
 
         //password and confirm password icon toggle
         etFullName = findViewById(R.id.ev_full_name);
@@ -107,36 +125,7 @@ public class SignupActivity extends AppCompatActivity {
 
            @Override
            public void onClick(View view) {
-               //validate if the edittext is empty
-               getFullName = etFullName.getText().toString().trim();
-               getEmail = etEmail.getText().toString().trim();
-               getPhone = etPhone.getText().toString().trim();
-               getPassword = etPassword.getText().toString().trim();
-               getConfirmedPassword = etConfirmPassword.getText().toString().trim();
-
-               int selectedGenderId = radioGroup.getCheckedRadioButtonId();
-               if(getFullName.isEmpty() || getEmail.isEmpty() || getPhone.isEmpty() || getPassword.isEmpty()
-                       || getConfirmedPassword.isEmpty() || selectedGenderId == -1){
-                   Toast.makeText(getApplicationContext(),"All fields must be filled!",Toast.LENGTH_SHORT).show();
-                   return;
-               }
-           if(!getPassword.equals(getConfirmedPassword)){
-               etConfirmPassword.setError("Passwords do not match!");
-               return;
-           }
-
-               selectedGender = findViewById(selectedGenderId);
-               gender = selectedGender.getText().toString().trim();
-           //Pass data to fragment
-               Intent confirmDetails = new Intent(getApplicationContext(),ConfirmDetails.class);
-
-               confirmDetails.putExtra("full_name",getFullName);
-               confirmDetails.putExtra("email",getEmail);
-               confirmDetails.putExtra("phone",getPhone);
-               confirmDetails.putExtra("gender",gender);
-
-               startActivity(confirmDetails);
-
+               performRegistration();
            }
        });
 
@@ -144,5 +133,82 @@ public class SignupActivity extends AppCompatActivity {
 
 
 
+    }
+
+    private void performRegistration() {
+        //validate if the edittext is empty
+        getFullName = etFullName.getText().toString().trim();
+        getEmail = etEmail.getText().toString().trim();
+        getPhone = etPhone.getText().toString().trim();
+        getPassword = etPassword.getText().toString().trim();
+        getConfirmedPassword = etConfirmPassword.getText().toString().trim();
+
+        int selectedGenderId = radioGroup.getCheckedRadioButtonId();
+        
+        // Validation
+        if(TextUtils.isEmpty(getFullName)) {
+            etFullName.setError("Full name is required");
+            etFullName.requestFocus();
+            return;
+        }
+        
+        if(TextUtils.isEmpty(getEmail)) {
+            etEmail.setError("Email is required");
+            etEmail.requestFocus();
+            return;
+        }
+        
+        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(getEmail).matches()) {
+            etEmail.setError("Enter a valid email");
+            etEmail.requestFocus();
+            return;
+        }
+        
+        if(TextUtils.isEmpty(getPhone)) {
+            etPhone.setError("Phone number is required");
+            etPhone.requestFocus();
+            return;
+        }
+        
+        if(TextUtils.isEmpty(getPassword)) {
+            etPassword.setError("Password is required");
+            etPassword.requestFocus();
+            return;
+        }
+        
+        if(getPassword.length() < 6) {
+            etPassword.setError("Password must be at least 6 characters");
+            etPassword.requestFocus();
+            return;
+        }
+        
+        if(TextUtils.isEmpty(getConfirmedPassword)) {
+            etConfirmPassword.setError("Confirm password is required");
+            etConfirmPassword.requestFocus();
+            return;
+        }
+        
+        if(!getPassword.equals(getConfirmedPassword)){
+            etConfirmPassword.setError("Passwords do not match!");
+            etConfirmPassword.requestFocus();
+            return;
+        }
+        
+        if(selectedGenderId == -1){
+            Toast.makeText(getApplicationContext(),"Please select your gender",Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        selectedGender = findViewById(selectedGenderId);
+        gender = selectedGender.getText().toString().trim();
+        
+        // Show confirmation screen
+        Intent confirmDetails = new Intent(getApplicationContext(), ConfirmDetails.class);
+        confirmDetails.putExtra("full_name", getFullName);
+        confirmDetails.putExtra("email", getEmail);
+        confirmDetails.putExtra("phone", getPhone);
+        confirmDetails.putExtra("gender", gender);
+        confirmDetails.putExtra("password", getPassword);
+        startActivity(confirmDetails);
     }
 }

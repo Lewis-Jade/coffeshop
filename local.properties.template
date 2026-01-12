@@ -1,0 +1,12 @@
+# Local Configuration Template
+# Copy this file to 'local.properties' and add your actual credentials
+# local.properties is already in .gitignore and will NOT be committed
+
+# Supabase Configuration
+# Get these from: https://supabase.com/dashboard/project/_/settings/api
+supabase.url=YOUR_SUPABASE_PROJECT_URL
+supabase.key=YOUR_SUPABASE_ANON_KEY
+
+# Paystack Configuration  
+# Get this from: https://dashboard.paystack.com/#/settings/developer
+paystack.key=YOUR_PAYSTACK_PUBLIC_KEY

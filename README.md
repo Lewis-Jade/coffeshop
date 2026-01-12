@@ -1,79 +1,194 @@
-# ☕ MMUST Mobile Coffee Shop Application
+# ☕ MMUST Coffee Shop
 
-## 📌 Project Overview
-Students and staff at **Masinde Muliro University of Science and Technology (MMUST)** frequently experience long queues and delays when purchasing food and beverages at campus coffee shops. The existing **manual ordering and payment process** is slow, inconvenient, and does not support digital payments, despite the growing preference for mobile payment solutions.
+A modern mobile application for ordering coffee at Masinde Muliro University of Science and Technology.
 
-Currently, there is **no centralized system** that allows users to view menus, place orders, or make fast and secure payments. This results in inefficiencies in service delivery and poor user experience.
+## 🎯 Project Overview
 
-To solve this problem, this project proposes a **mobile coffee shop application** that enables users to browse menus, place orders, and pay seamlessly using **M-Pesa**, Kenya’s most widely used mobile payment platform. The system aims to reduce waiting time, improve order management, and modernize the purchasing experience at MMUST coffee shops.
-
----
-
-## ⚙️ Functional Requirements
-
-### 1. User Registration & Login
-- Users shall be able to create an account or log in using **email or phone number**.
-
-### 2. Product Browsing
-- Users shall view available coffee items including:
-  - Product name  
-  - Description  
-  - Price  
-  - Image  
-
-### 3. Cart Management
-- Users shall be able to:
-  - Add items to the cart  
-  - Update item quantities  
-  - Remove items from the cart  
-
-### 4. Checkout & Payment
-- Users shall initiate payment using **M-Pesa** (STK Push or Paybill).
-- The system shall confirm **payment success or failure in real time**.
-
-### 5. Order Tracking
-- Users shall view the current status of their order:
-  - Pending  
-  - Paid  
-  - Completed  
-
-### 6. Admin Management
-- Admin users shall be able to:
-  - Add, update, or remove coffee items  
-  - View all orders and their payment status  
-
-### 7. Notifications
-- Users shall receive a confirmation notification after successful payment.
-- Optionally, admin users may receive notifications when a new order is placed.
+Students and staff at MMUST face long queues when purchasing coffee. This app solves that by enabling digital ordering and M-PESA payments, reducing wait times and modernizing the campus coffee shop experience.
 
 ---
 
-## 🛡️ Non-Functional Requirements
+## ✅ Features Completed
 
-### 1. Security
-- All communication shall use **HTTPS**.
-- Sensitive payment data shall not be stored insecurely.
+### User Features
+- ✅ **User Authentication** - Register and login with email/phone
+- ✅ **Browse Products** - View available coffee items with prices and images
+- ✅ **Shopping Cart** - Add, update, and remove items
+- ✅ **M-PESA Payments** - Secure mobile money payments
+- ✅ **Order Tracking** - View order history and status
+- ✅ **User Profile** - Manage account settings
 
-### 2. Performance
-- Payment requests and confirmations shall be processed within **a few seconds**.
-
-### 3. Usability
-- The application shall have a **clean and intuitive user interface**.
-- Navigation between products, cart, and checkout shall be simple and clear.
-
-### 4. Reliability
-- The system shall accurately reflect the correct payment status.
-- The system shall handle network interruptions gracefully during payment.
-
-### 5. Scalability
-- The application shall support:
-  - Adding more products  
-  - Handling an increasing number of users without major changes  
-
-### 6. Maintainability
-- The system shall use a **modular code structure** to allow easy updates and future feature additions.
+### Technical Features
+- ✅ **Supabase Backend** - Authentication and database
+- ✅ **Secure Storage** - No hardcoded credentials
+- ✅ **Responsive UI** - Works on all Android devices
+- ✅ **Error Handling** - Graceful error messages
+- ✅ **Offline Cart** - Cart persists locally
 
 ---
 
-## 🚀 Conclusion
-The MMUST Mobile Coffee Shop Application provides a modern, efficient, and secure solution for campus coffee shop operations. By integrating digital ordering and M-Pesa payments, the system enhances convenience, reduces queues, and significantly improves the overall user experience.
+## 🚧 Work in Progress
+
+### Planned Features
+- ⏳ **Admin Dashboard** - Manage products and orders
+- ⏳ **Push Notifications** - Real-time order updates
+- ⏳ **Product Search** - Find items quickly
+- ⏳ **Order History Details** - View individual order items
+- ⏳ **Password Reset** - Forgot password functionality
+
+### Future Enhancements
+- 📋 **Multiple Coffee Shops** - Support for different campus locations
+- 📋 **Loyalty Program** - Reward frequent customers
+- 📋 **Product Reviews** - Rate and review items
+- 📋 **Favorites** - Save preferred items
+
+---
+
+## 🛠️ Tech Stack
+
+- **Platform:** Native Android (Java)
+- **UI:** Material Design 3
+- **Backend:** Supabase (PostgreSQL, Auth)
+- **Payments:** Paystack (M-PESA integration)
+- **Local Storage:** SharedPreferences, Room Database
+- **Networking:** OkHttp
+- **Build:** Gradle
+
+---
+
+## 🚀 Quick Start
+
+### Prerequisites
+- Android Studio
+- Android device or emulator (API 24+)
+- Supabase account
+- Paystack account (test mode)
+
+### Setup
+```bash
+# Clone the repository
+git clone https://github.com/sibby-killer/coffeshop.git
+cd coffeshop
+
+# Copy credentials template
+cp local.properties.template local.properties
+
+# Add your credentials to local.properties
+# - Get Supabase URL and key from: https://supabase.com/dashboard
+# - Get Paystack test key from: https://dashboard.paystack.com
+
+# Open in Android Studio
+# File → Open → Select coffeshop folder
+
+# Sync and build
+# File → Sync Project with Gradle Files
+# Build → Rebuild Project
+
+# Run
+# Click Run ▶️
+```
+
+For detailed setup instructions, see [documentation/quick-start.md](documentation/quick-start.md)
+
+---
+
+## 📱 Screenshots
+
+<table>
+  <tr>
+    <td>Login</td>
+    <td>Products</td>
+    <td>Cart</td>
+    <td>Checkout</td>
+  </tr>
+  <tr>
+    <td><i>Authentication</i></td>
+    <td><i>Browse Menu</i></td>
+    <td><i>Manage Cart</i></td>
+    <td><i>M-PESA Payment</i></td>
+  </tr>
+</table>
+
+---
+
+## 🤝 Contributing
+
+### Getting Started
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Set up your own `local.properties` with credentials
+4. Make your changes
+5. Test thoroughly
+6. Commit your changes (`git commit -m 'Add amazing feature'`)
+7. Push to the branch (`git push origin feature/amazing-feature`)
+8. Open a Pull Request
+
+### Code Style
+- Follow existing Java conventions
+- Use Material Design components
+- Keep UI consistent with current design
+- Add comments for complex logic
+- Write meaningful commit messages
+
+---
+
+## 📚 Documentation
+
+- [Quick Start Guide](documentation/quick-start.md) - Get up and running
+- [Database Setup](documentation/database-setup.md) - Configure Supabase
+- [Troubleshooting](documentation/troubleshooting.md) - Fix common issues
+- [Deployment](documentation/deployment.md) - Production deployment
+
+---
+
+## 🔐 Security
+
+- **No hardcoded credentials** - All secrets in `local.properties` (gitignored)
+- **Row Level Security** - Database access controlled by Supabase RLS
+- **HTTPS only** - All API communication encrypted
+- **Secure payments** - PCI-compliant via Paystack
+- **Input validation** - All user inputs validated
+
+---
+
+## 📊 Project Status
+
+- **Version:** 1.0
+- **Status:** Active Development
+- **Last Updated:** January 2026
+- **Build Status:** ✅ Passing
+- **Test Coverage:** Manual testing complete
+
+---
+
+## 📝 License
+
+This project is for educational purposes at MMUST.
+
+---
+
+## 👥 Team
+
+Developed by students at Masinde Muliro University of Science and Technology.
+
+---
+
+## 🐛 Known Issues
+
+- Payment verification requires returning to app after browser payment
+- Product images are currently local drawables (not from database)
+
+See [documentation/troubleshooting.md](documentation/troubleshooting.md) for solutions.
+
+---
+
+## 📞 Support
+
+Having issues? Check these in order:
+1. [Troubleshooting Guide](documentation/troubleshooting.md)
+2. [Quick Start Guide](documentation/quick-start.md)
+3. Open an issue on GitHub
+
+---
+
+**Happy Coding!** ☕

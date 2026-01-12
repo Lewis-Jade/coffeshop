@@ -6,6 +6,11 @@
       android:icon="@drawable/drinks"
       />
     <item
+        android:id="@+id/cart_tab"
+        android:title="Cart"
+        android:icon="@drawable/cart"
+        />
+    <item
         android:id="@+id/orders_tab"
         android:title="Orders"
         android:icon="@drawable/orders"
