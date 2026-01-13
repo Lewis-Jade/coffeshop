@@ -8,20 +8,25 @@ import android.view.MenuItem;
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.material.badge.BadgeDrawable;
+import com.google.android.material.badge.BadgeUtils;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
 public class DashBoard extends AppCompatActivity {
 BottomNavigationView bottomNavigationView;
 
+
 DrinksFragment drinksFragment = new DrinksFragment();
 OrdersFragment ordersFragment = new OrdersFragment();
 HomeFragment homeFragment = new HomeFragment();
-
+private CartViewModel cartViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +59,28 @@ HomeFragment homeFragment = new HomeFragment();
                 }
 
             }
+        });
+        cartViewModel = new ViewModelProvider(this).get(CartViewModel.class);
+
+        cartViewModel.getCartItems().observe(this, items -> {
+            BadgeDrawable badge =
+                    bottomNavigationView.getOrCreateBadge(R.id.orders_tab);
+
+            int count = items.size();
+
+            if (count > 0) {
+                badge.setVisible(true);
+                badge.setNumber(count);
+            } else {
+                badge.setVisible(false);
+            }
+
+            badge.setBackgroundColor(
+                    ContextCompat.getColor(this, R.color.badge_bg)
+            );
+            badge.setBadgeTextColor(
+                    ContextCompat.getColor(this, R.color.white)
+            );
         });
 
     }

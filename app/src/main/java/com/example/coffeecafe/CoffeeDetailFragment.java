@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +24,8 @@ public class CoffeeDetailFragment extends Fragment {
      private DrinksModel drinksModel;
      private int quantity = 1;
      private int price;
+     private CartViewModel cartViewModel;
+
 
 
     @SuppressLint("SetTextI18n")
@@ -76,13 +78,32 @@ public class CoffeeDetailFragment extends Fragment {
             }
         });
 
-        addToCartButton.setOnClickListener(v -> {
-            Toast.makeText(getContext(),
-                    quantity + " x " + drinksModel.getName() + " added to cart!",
-                    Toast.LENGTH_SHORT).show();
 
-            // Optional: update a Shared ViewModel or local DB for the cart
+            //Add to cart button
+        cartViewModel = new ViewModelProvider(requireActivity())
+                .get(CartViewModel.class);
+
+        addToCartButton.setOnClickListener(v -> {
+            if (drinksModel != null) {
+                // Add to cart safely
+                cartViewModel.addToCart(drinksModel, quantity);
+
+                Toast.makeText(getContext(),
+                        quantity + " x " + drinksModel.getName() + " added to cart!",
+                        Toast.LENGTH_SHORT).show();
+
+                // Navigate to OrdersFragment
+                requireActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frameContainer, new OrdersFragment())
+                        .addToBackStack(null)
+                        .commit();
+            } else {
+                Toast.makeText(getContext(), "Error: Coffee data missing!", Toast.LENGTH_SHORT).show();
+            }
         });
+
+
         return view;
     }
 }

@@ -9,4 +9,5 @@
     <color name="conf_dtl">#684027</color>
     <color name="ic_plus">#0CC017</color>
     <color name="ic_minus">#F20909</color>
+    <color name="badge_bg">#E60808</color>
 </resources>

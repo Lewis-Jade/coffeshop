@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="@drawable/cart_item_custom_dg"
+    android:layout_margin="3dp"
+    android:padding="12dp">
+
+    <TextView
+        android:id="@+id/tvName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Latte"
+        android:textStyle="italic"
+        android:fontFamily="@font/poppins_regular"
+        android:textSize="16sp"
+        android:textColor="@color/tagline"/>
+
+    <TextView
+        android:id="@+id/tvQty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="x1"
+        android:textColor="@color/tagline"
+        android:fontFamily="@font/poppins_regular"
+        android:textSize="16sp"
+        android:layout_marginEnd="12dp"/>
+
+    <TextView
+        android:id="@+id/tvSubtotal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/tagline"
+        android:fontFamily="@font/poppins_regular"
+        android:text="Ksh 10"
+        android:textStyle="bold"/>
+</LinearLayout>
