@@ -16,7 +16,7 @@
         android:textSize="22sp"
         android:textStyle="bold"
         android:fontFamily="@font/poppins_regular"
-        android:textColor="@color/black"
+        android:textColor="@color/gender"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
 
@@ -52,7 +52,7 @@
             android:textSize="20sp"
             android:fontFamily="@font/poppins_regular"
             android:textStyle="bold"
-            android:textColor="@color/black"/>
+            android:textColor="@color/gender"/>
 
         <!-- Pay Button -->
         <android.widget.Button
