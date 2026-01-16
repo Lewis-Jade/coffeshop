@@ -20,6 +20,9 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.firebase.Firebase;
+import com.google.firebase.auth.FirebaseAuth;
+
 public class SignupActivity extends AppCompatActivity {
     private EditText etFullName,etEmail,etPhone,etPassword, etConfirmPassword;
     private String getFullName,getEmail,getPhone,getPassword,getConfirmedPassword,gender;
@@ -27,6 +30,8 @@ public class SignupActivity extends AppCompatActivity {
     private RadioButton radioMale,radioFemale,selectedGender;
     private boolean isPasswordVisible = false;
     private boolean isConfirmPasswordVisible = false;
+
+    private  FirebaseAuth auth;
 
     private Button registerUser;
     @SuppressLint("ClickableViewAccessibility")
@@ -127,15 +132,26 @@ public class SignupActivity extends AppCompatActivity {
 
                selectedGender = findViewById(selectedGenderId);
                gender = selectedGender.getText().toString().trim();
-           //Pass data to fragment
-               Intent confirmDetails = new Intent(getApplicationContext(),ConfirmDetails.class);
+           //Pass data to  confirm details
+               auth = FirebaseAuth.getInstance();
 
-               confirmDetails.putExtra("full_name",getFullName);
-               confirmDetails.putExtra("email",getEmail);
-               confirmDetails.putExtra("phone",getPhone);
-               confirmDetails.putExtra("gender",gender);
+               auth.createUserWithEmailAndPassword(getEmail,getPassword)
+                       .addOnCompleteListener(task->{
+                           if(task.isSuccessful()){
+                               Intent confirmDetails = new Intent(getApplicationContext(),ConfirmDetails.class);
 
-               startActivity(confirmDetails);
+                               confirmDetails.putExtra("full_name",getFullName);
+                               confirmDetails.putExtra("email",getEmail);
+                               confirmDetails.putExtra("phone",getPhone);
+                               confirmDetails.putExtra("gender",gender);
+
+                               startActivity(confirmDetails);
+                           }else{
+                               Toast.makeText(getApplicationContext(),task.getException().getMessage(),Toast.LENGTH_SHORT).show();
+                           }
+
+               });
+
 
            }
        });
