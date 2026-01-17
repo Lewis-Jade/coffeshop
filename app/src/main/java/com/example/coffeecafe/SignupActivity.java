@@ -61,6 +61,7 @@ public class SignupActivity extends AppCompatActivity {
         radioMale = findViewById(R.id.radioMale);
         radioFemale = findViewById(R.id.radioFemale);
         loadingOverlay = findViewById(R.id.loadingOverlay);
+        restoreFieldsOnCancel();
 
         auth = FirebaseAuth.getInstance();
 
@@ -121,8 +122,9 @@ public class SignupActivity extends AppCompatActivity {
                             confirmDetails.putExtra("email", getEmail);
                             confirmDetails.putExtra("phone", getPhone);
                             confirmDetails.putExtra("gender", gender);
-                            startActivity(confirmDetails);
-                            finish();
+                            startActivityForResult(confirmDetails, 1001);
+
+
                         } else {
                             Toast.makeText(this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                         }
@@ -188,5 +190,32 @@ public class SignupActivity extends AppCompatActivity {
         etPhone.setText(savedInstanceState.getString("phone"));
         etPassword.setText(savedInstanceState.getString("password"));
         etConfirmPassword.setText(savedInstanceState.getString("confirmPassword"));
+    }
+
+    /////Restore  the input field from ConfirmDetails on cancel
+
+    private void restoreFieldsOnCancel(){
+        // Restore previous values if returning from ConfirmDetails
+        Intent intent = getIntent();
+        if (intent != null) {
+            String fullName = intent.getStringExtra("full_name");
+            String email = intent.getStringExtra("email");
+            String phone = intent.getStringExtra("phone");
+            String genderStr = intent.getStringExtra("gender");
+
+            if (fullName != null) etFullName.setText(fullName);
+            if (email != null) etEmail.setText(email);
+            if (phone != null) etPhone.setText(phone);
+
+            // Restore gender radio
+            if (genderStr != null) {
+                if (genderStr.equalsIgnoreCase("Male")) {
+                    radioMale.setChecked(true);
+                } else if (genderStr.equalsIgnoreCase("Female")) {
+                    radioFemale.setChecked(true);
+                }
+            }
+        }
+
     }
 }

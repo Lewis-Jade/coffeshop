@@ -76,29 +76,26 @@ private void setBtnCancel() {
 
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        Intent backToSignup = new Intent(getApplicationContext(), SignupActivity.class);
-
-        // Pass back all current field values
-        backToSignup.putExtra("full_name", getIntent().getStringExtra("full_name"));
-        backToSignup.putExtra("email", getIntent().getStringExtra("email"));
-        backToSignup.putExtra("phone", getIntent().getStringExtra("phone"));
-        backToSignup.putExtra("gender", getIntent().getStringExtra("gender"));
+        // Prepare data to return
+        Intent resultIntent = new Intent();
+        resultIntent.putExtra("full_name", getIntent().getStringExtra("full_name"));
+        resultIntent.putExtra("email", getIntent().getStringExtra("email"));
+        resultIntent.putExtra("phone", getIntent().getStringExtra("phone"));
+        resultIntent.putExtra("gender", getIntent().getStringExtra("gender"));
 
         if (firebaseUser != null) {
             firebaseUser.delete().addOnCompleteListener(task -> {
                 FirebaseAuth.getInstance().signOut();
-                backToSignup.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                startActivity(backToSignup);
+                setResult(RESULT_CANCELED, resultIntent);
                 finish();
             });
         } else {
-            backToSignup.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            startActivity(backToSignup);
+            setResult(RESULT_CANCELED, resultIntent);
             finish();
         }
-
     });
 }
+
 
 
     //creating a user account
@@ -181,5 +178,7 @@ private void setBtnCancel() {
         AlertDialog dialog = builder.create();
         dialog.show();
     }
+
+
 
 }
