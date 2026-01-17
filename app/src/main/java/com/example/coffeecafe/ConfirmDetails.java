@@ -70,16 +70,36 @@ public class ConfirmDetails extends AppCompatActivity {
         });
 
     }
-// on  cancel btn
-    private void setBtnCancel() {
-        btnCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+/////// cancel btn
+private void setBtnCancel() {
+    btnCancel.setOnClickListener(view -> {
 
-    }
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        Intent backToSignup = new Intent(getApplicationContext(), SignupActivity.class);
+
+        // Pass back all current field values
+        backToSignup.putExtra("full_name", getIntent().getStringExtra("full_name"));
+        backToSignup.putExtra("email", getIntent().getStringExtra("email"));
+        backToSignup.putExtra("phone", getIntent().getStringExtra("phone"));
+        backToSignup.putExtra("gender", getIntent().getStringExtra("gender"));
+
+        if (firebaseUser != null) {
+            firebaseUser.delete().addOnCompleteListener(task -> {
+                FirebaseAuth.getInstance().signOut();
+                backToSignup.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(backToSignup);
+                finish();
+            });
+        } else {
+            backToSignup.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(backToSignup);
+            finish();
+        }
+
+    });
+}
+
 
     //creating a user account
     private void confirmUser() {
