@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -100,6 +101,10 @@ private void setBtnCancel() {
 
     //creating a user account
     private void confirmUser() {
+        btnConfirm.setEnabled(false);
+        btnConfirm.setText("Saving...");
+        btnConfirm.setBackgroundTintList(ContextCompat.getColorStateList(this,R.color.ic_plus));
+
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) return; // safety check
 

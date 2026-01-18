@@ -107,6 +107,7 @@
 
         />
     <TextView
+        android:id="@+id/tvForgotPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Forgot password?"
@@ -154,4 +155,52 @@
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
+    <!-- Loading Overlay -->
+    <FrameLayout
+        android:id="@+id/loadingOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:background="#80000000"
+        >
+
+        <!-- Loading Card -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_gravity="center"
+            android:padding="16dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="@drawable/bg_loading_card"
+            android:elevation="8dp">
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/logo"
+                android:background="@drawable/bordes_drwd"
+                android:layout_marginEnd="20dp"
+                />
+
+            <ProgressBar
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:indeterminate="true"
+                android:indeterminateTint="@color/white"/>
+
+            <TextView
+                android:layout_marginStart="12dp"
+                android:text="@string/logging_in"
+                android:textSize="16sp"
+                android:textColor="@color/tagline"
+                android:fontFamily="@font/poppins_regular"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                />
+
+        </LinearLayout>
+
+    </FrameLayout>
 </FrameLayout>

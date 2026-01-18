@@ -106,30 +106,32 @@ public class SignupActivity extends AppCompatActivity {
 
         // Firebase signup with minimum spinner display
         long startTime = System.currentTimeMillis();
-        loadingOverlay.post(() -> auth.createUserWithEmailAndPassword(getEmail, getPassword)
-                .addOnCompleteListener(task -> {
-                    long elapsed = System.currentTimeMillis() - startTime;
-                    long delay = Math.max(300 - elapsed, 0); // ensure spinner shows at least 300ms
+        loadingOverlay.post(() -> {
+            auth.createUserWithEmailAndPassword(getEmail, getPassword)
+                    .addOnCompleteListener(task -> {
+                        long elapsed = System.currentTimeMillis() - startTime;
+                        long delay = Math.max(300 - elapsed, 0); // ensure spinner shows at least 300ms
 
-                    loadingOverlay.postDelayed(() -> {
-                        hideLoading();
-                        registerUser.setEnabled(true);
+                        loadingOverlay.postDelayed(() -> {
+                            hideLoading();
+                            registerUser.setEnabled(true);
 
-                        if (task.isSuccessful()) {
-                            // Go to ConfirmDetails
-                            Intent confirmDetails = new Intent(this, ConfirmDetails.class);
-                            confirmDetails.putExtra("full_name", getFullName);
-                            confirmDetails.putExtra("email", getEmail);
-                            confirmDetails.putExtra("phone", getPhone);
-                            confirmDetails.putExtra("gender", gender);
-                            startActivityForResult(confirmDetails, 1001);
+                            if (task.isSuccessful()) {
+                                // Go to ConfirmDetails
+                                Intent confirmDetails = new Intent(this, ConfirmDetails.class);
+                                confirmDetails.putExtra("full_name", getFullName);
+                                confirmDetails.putExtra("email", getEmail);
+                                confirmDetails.putExtra("phone", getPhone);
+                                confirmDetails.putExtra("gender", gender);
+                                startActivityForResult(confirmDetails, 1001);
 
 
-                        } else {
-                            Toast.makeText(this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    }, delay);
-                }));
+                            } else {
+                                Toast.makeText(this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }, delay);
+                    });
+        });
     }
 
     private void setupPasswordToggle() {
