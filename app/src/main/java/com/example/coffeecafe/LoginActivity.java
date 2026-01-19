@@ -37,6 +37,8 @@ public class LoginActivity extends AppCompatActivity {
     private  String userEmail,userPassword;
     private CheckBox rememberMe;
 
+    private TextView tvForgotPassword;
+
     private boolean isPasswordVisible
             = false;
     @SuppressLint({"ClickableViewAccessibility", "MissingInflatedId"})
@@ -57,6 +59,7 @@ public class LoginActivity extends AppCompatActivity {
         buttonLogin = findViewById(R.id.bv_login);
         loadingOverlay = findViewById(R.id.loadingOverlay);
         rememberMe = findViewById(R.id.check_box);
+        tvForgotPassword = findViewById(R.id.tvForgotPassword);
 
         firebaseAuth = FirebaseAuth.getInstance();
 
@@ -83,15 +86,7 @@ public class LoginActivity extends AppCompatActivity {
             return false;
         });
  ///////       //////////////////// remember me check
-        SharedPreferences prefs = getSharedPreferences("auth", MODE_PRIVATE);
-        boolean remember = prefs.getBoolean("remember", false);
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-        if (remember && user != null && user.isEmailVerified()) {
-            startActivity(new Intent(this, DashBoard.class));
-            finish();
-        }
 ////// Login button logic
 
         buttonLogin.setOnClickListener(new View.OnClickListener() {
@@ -132,6 +127,13 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        tvForgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(),ForgotPasswordActivity.class));
+            }
+        });
+
 
     }
 
@@ -153,6 +155,8 @@ public class LoginActivity extends AppCompatActivity {
                 }).setNegativeButton("Ok",null).show();
     }
 
+
+/////////Spinner loading animation on login
     private void showLoading() {
         loadingOverlay.setVisibility(View.VISIBLE);
         loadingOverlay.post(() -> getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
@@ -163,6 +167,13 @@ public class LoginActivity extends AppCompatActivity {
         loadingOverlay.setVisibility(View.GONE);
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
     }
+
+    ////Forgot password logic
+
+
+
+
+
 
 
 

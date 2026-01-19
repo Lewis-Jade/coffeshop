@@ -39,7 +39,7 @@ public class SignupActivity extends AppCompatActivity {
     private String getFullName, getEmail, getPhone, getPassword, getConfirmedPassword, gender;
     private boolean isPasswordVisible = false, isConfirmPasswordVisible = false;
 
-    private FirebaseAuth auth;
+    private FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +63,7 @@ public class SignupActivity extends AppCompatActivity {
         loadingOverlay = findViewById(R.id.loadingOverlay);
         restoreFieldsOnCancel();
 
-        auth = FirebaseAuth.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
 
         // Password toggle
         setupPasswordToggle();
@@ -107,7 +107,7 @@ public class SignupActivity extends AppCompatActivity {
         // Firebase signup with minimum spinner display
         long startTime = System.currentTimeMillis();
         loadingOverlay.post(() -> {
-            auth.createUserWithEmailAndPassword(getEmail, getPassword)
+            firebaseAuth.createUserWithEmailAndPassword(getEmail, getPassword)
                     .addOnCompleteListener(task -> {
                         long elapsed = System.currentTimeMillis() - startTime;
                         long delay = Math.max(300 - elapsed, 0); // ensure spinner shows at least 300ms

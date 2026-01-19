@@ -146,7 +146,7 @@
         android:fontFamily="@font/poppins_regular"
         android:text="©2025 Coffee App"
         android:textColor="@color/white"
-        android:textSize="18sp"
+        android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/bv_login"
