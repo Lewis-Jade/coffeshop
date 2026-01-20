@@ -4,6 +4,8 @@ import static com.example.coffeecafe.R.*;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -27,6 +29,9 @@ DrinksFragment drinksFragment = new DrinksFragment();
 OrdersFragment ordersFragment = new OrdersFragment();
 HomeFragment homeFragment = new HomeFragment();
 private CartViewModel cartViewModel;
+private ImageView iconImage;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +43,7 @@ private CartViewModel cartViewModel;
         systemHelper.setSystemBars(R.color.gender,R.color.gender,false);
 
         bottomNavigationView = findViewById(R.id.bottom_nav_bar);
+
 
         getSupportFragmentManager().beginTransaction().replace(R.id.frameContainer,drinksFragment).commit();
 
@@ -82,6 +88,17 @@ private CartViewModel cartViewModel;
                     ContextCompat.getColor(this, R.color.white)
             );
         });
+
+
+        /////Burger menu popup.
+
+        iconImage = findViewById(id.iv_menu);
+
+       iconImage.setOnClickListener(view ->{
+           HamburgerMenu.showBurgerPopMenu(this,view);
+
+       });
+
 
     }
 }

@@ -10,7 +10,7 @@
         android:id="@+id/loadingOverlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#382202"
+        android:background="#F2F2F2"
         >
 
         <!-- Loading Card -->
@@ -24,7 +24,7 @@
             android:orientation="horizontal"
             android:gravity="center_vertical"
             android:background="@drawable/bg_loading_card"
-
+            android:backgroundTint="@color/white"
             android:elevation="8dp">
             <ImageView
                 android:layout_width="60dp"
@@ -38,13 +38,13 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:indeterminate="true"
-                android:indeterminateTint="@color/tagline"/>
+                android:indeterminateTint="@color/gender"/>
 
             <TextView
                 android:layout_marginStart="12dp"
                 android:text="Logging in......"
                 android:textSize="16sp"
-                android:textColor="@color/tagline"
+                android:textColor="@color/gender"
                 android:fontFamily="@font/poppins_regular"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
