@@ -257,6 +257,7 @@
                 android:layout_height="60dp"
                 android:src="@drawable/logo"
                 android:background="@drawable/bordes_drwd"
+                android:backgroundTint="@color/tagline"
                 android:layout_marginEnd="20dp"
                 />
 
@@ -264,13 +265,13 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:indeterminate="true"
-                android:indeterminateTint="@color/white"/>
+                android:indeterminateTint="@color/gender"/>
 
             <TextView
                 android:layout_marginStart="12dp"
                 android:text="Loading......"
                 android:textSize="16sp"
-                android:textColor="@color/tagline"
+                android:textColor="@color/gender"
                 android:fontFamily="@font/poppins_regular"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
