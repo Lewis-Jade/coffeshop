@@ -1,5 +1,8 @@
 package com.example.coffeecafe;
 
+import android.app.AlertDialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,7 +19,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.textfield.TextInputEditText;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -39,6 +42,7 @@ public class OrdersFragment extends Fragment {
     private TextView tvTotal;
     private CartAdapter adapter;
     private Button btnPay;
+    private int grandTotal = 0;
 
     @Nullable
     @Override
@@ -67,28 +71,74 @@ public class OrdersFragment extends Fragment {
             adapter.notifyDataSetChanged();
 
             // Update grand total
-            int total = 0;
-            for (CartItem item : items) {
-                total += item.getTotalPrice();
+            grandTotal = 0;
+            if (items != null) {
+                for (CartItem item : items) {
+                    grandTotal += item.getTotalPrice();
+                }
             }
-            tvTotal.setText("Grand Total: Ksh " + total);
+            tvTotal.setText("Grand Total: Ksh " + grandTotal);
         });
+
         btnPay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                makePayment("254708374149", 10);
+                if (grandTotal > 0) {
+                    showPaymentDialog();
+                } else {
+                    Toast.makeText(getContext(), "Your cart is empty", Toast.LENGTH_SHORT).show();
+                }
             }
         });
+
         return view;
     }
 
-    private void makePayment(String phone,int amount){
+    private void showPaymentDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_pay_mpesa, null);
+        builder.setView(dialogView);
+
+        TextInputEditText etPhone = dialogView.findViewById(R.id.etPhone);
+        TextInputEditText etAmount = dialogView.findViewById(R.id.etAmount);
+        Button btnConfirmPay = dialogView.findViewById(R.id.btnConfirmPay);
+
+        etAmount.setText(String.valueOf(grandTotal));
+
+        AlertDialog dialog = builder.create();
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
+
+        btnConfirmPay.setOnClickListener(v -> {
+            String phone = etPhone.getText().toString().trim();
+            String amountStr = etAmount.getText().toString().trim();
+
+            if (phone.isEmpty()) {
+                etPhone.setError("Phone number is required");
+                return;
+            }
+
+            if (!phone.startsWith("254") || phone.length() != 12) {
+                etPhone.setError("Enter a valid phone number (e.g., 2547XXXXXXXX)");
+                return;
+            }
+
+            int amount = Integer.parseInt(amountStr);
+            makePayment(phone, amount);
+            dialog.dismiss();
+        });
+
+        dialog.show();
+    }
+
+    private void makePayment(String phone, int amount) {
         OkHttpClient client = new OkHttpClient();
         JSONObject jsonObject = new JSONObject();
-        try{
-            jsonObject.put("phone",phone);
-            jsonObject.put("amount",amount);
-        }catch (JSONException e){
+        try {
+            jsonObject.put("phone", phone);
+            jsonObject.put("amount", amount);
+        } catch (JSONException e) {
             e.printStackTrace();
         }
 
@@ -97,43 +147,38 @@ public class OrdersFragment extends Fragment {
                 MediaType.parse("application/json;charset=utf-8")
         );
 
-        String url = " https://4092b5d2137d.ngrok-free.app/stkpush";
+        String url = "https://673e-154-159-238-15.ngrok-free.app/stkpush";
 
         Request request = new Request.Builder().url(url).post(requestBody).build();
 
         client.newCall(request).enqueue(new Callback() {
-
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
                 if (!isAdded()) return;
-
                 requireActivity().runOnUiThread(() -> {
-                    Toast.makeText(requireContext(),
-                            "Payment failed. Check connection",
-                            Toast.LENGTH_SHORT
-                    ).show();
+                    Toast.makeText(requireContext(), "Payment failed. Check connection", Toast.LENGTH_SHORT).show();
                 });
             }
 
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 if (!isAdded()) return;
-
                 String resp = response.body() != null ? response.body().string() : "";
-
+                
                 requireActivity().runOnUiThread(() -> {
-                    Toast.makeText(requireContext(),
-                            "STK push sent. Enter your M-Pesa PIN",
-                            Toast.LENGTH_LONG
-                    ).show();
+                    // Simulating a success check from backend response
+                    // In a real app, you'd parse 'resp' to confirm 'ResponseCode' is '0'
+                    boolean isSuccess = resp.contains("Success") || resp.contains("sent"); 
+
+                    if (isSuccess) {
+                        Toast.makeText(requireContext(), "Payment Successful!", Toast.LENGTH_LONG).show();
+                        cartViewModel.moveToPurchased();
+                    } else {
+                        Toast.makeText(requireContext(), "Payment failed: " + resp, Toast.LENGTH_LONG).show();
+                    }
                     Log.d("MPESA_RESPONSE", resp);
                 });
             }
         });
-
-
     }
-
-
-
 }
