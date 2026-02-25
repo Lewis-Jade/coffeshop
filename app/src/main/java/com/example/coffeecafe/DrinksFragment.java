@@ -31,7 +31,7 @@ public class DrinksFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         itemList = new ArrayList<>();
 
-        itemList.add(new DrinksModel("Latte",10,"Smooth milk coffee",R.drawable.coffee_withmilk));
+        itemList.add(new DrinksModel("Latte",5,"Smooth milk coffee",R.drawable.coffee_withmilk));
          itemList.add(new DrinksModel("Cappuccino",20,"Strong and creamy",R.drawable.white_cup_hot_chocolate));
          itemList.add(new DrinksModel("Espresso",30,"Bold and pure",R.drawable.espresso_coffee));
 
