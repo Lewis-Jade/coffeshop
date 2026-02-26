@@ -147,7 +147,7 @@ public class OrdersFragment extends Fragment {
                 MediaType.parse("application/json;charset=utf-8")
         );
 
-        String url = "https://673e-154-159-238-15.ngrok-free.app/stkpush";
+        String url = "https://m-pesa-backend-xmc8.onrender.com/stkpush";
 
         Request request = new Request.Builder().url(url).post(requestBody).build();
 

@@ -60,10 +60,10 @@ private String getEmail;
                   hideLoading();
                   resetBtn.setEnabled(true);
                   if(task.isSuccessful()){
-                      Toast.makeText(getApplicationContext(),"Reset Link send to your email",Toast.LENGTH_LONG).show();
+                      Toast.makeText(getApplicationContext(),"Reset link sent! Please check your email (and Spam folder).",Toast.LENGTH_LONG).show();
                       finish();
                   }else{
-                      Toast.makeText(getApplicationContext(),task.getException().getMessage(),Toast.LENGTH_LONG).show();
+                      Toast.makeText(getApplicationContext(),task.getException().getMessage(),Toast.LENGTH_SHORT).show();
                   }
         });
 

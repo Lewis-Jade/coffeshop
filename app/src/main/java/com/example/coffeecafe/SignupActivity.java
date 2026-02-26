@@ -117,6 +117,9 @@ public class SignupActivity extends AppCompatActivity {
                             registerUser.setEnabled(true);
 
                             if (task.isSuccessful()) {
+                                // Important: Advise user to check Spam
+                                Toast.makeText(this, "Success! Please check your email (and Spam folder) for verification.", Toast.LENGTH_LONG).show();
+                                
                                 // Go to ConfirmDetails
                                 Intent confirmDetails = new Intent(this, ConfirmDetails.class);
                                 confirmDetails.putExtra("full_name", getFullName);
@@ -124,7 +127,6 @@ public class SignupActivity extends AppCompatActivity {
                                 confirmDetails.putExtra("phone", getPhone);
                                 confirmDetails.putExtra("gender", gender);
                                 startActivityForResult(confirmDetails, 1001);
-
 
                             } else {
                                 Toast.makeText(this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
