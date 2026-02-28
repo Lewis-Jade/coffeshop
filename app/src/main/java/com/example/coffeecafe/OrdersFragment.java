@@ -16,9 +16,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.json.JSONException;
@@ -61,16 +63,13 @@ public class OrdersFragment extends Fragment {
 
         cartViewModel = new ViewModelProvider(requireActivity()).get(CartViewModel.class);
 
-        // Initialize adapter with empty list first
         adapter = new CartAdapter(new ArrayList<>());
         recyclerView.setAdapter(adapter);
 
-        // Observe cart items and update RecyclerView & total dynamically
         cartViewModel.getCartItems().observe(getViewLifecycleOwner(), items -> {
             adapter.updateItems(items);
             adapter.notifyDataSetChanged();
 
-            // Update grand total
             grandTotal = 0;
             if (items != null) {
                 for (CartItem item : items) {
@@ -80,14 +79,11 @@ public class OrdersFragment extends Fragment {
             tvTotal.setText("Grand Total: Ksh " + grandTotal);
         });
 
-        btnPay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (grandTotal > 0) {
-                    showPaymentDialog();
-                } else {
-                    Toast.makeText(getContext(), "Your cart is empty", Toast.LENGTH_SHORT).show();
-                }
+        btnPay.setOnClickListener(v -> {
+            if (grandTotal > 0) {
+                showPaymentDialog();
+            } else {
+                Toast.makeText(getContext(), "Your cart is empty", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -101,7 +97,8 @@ public class OrdersFragment extends Fragment {
 
         TextInputEditText etPhone = dialogView.findViewById(R.id.etPhone);
         TextInputEditText etAmount = dialogView.findViewById(R.id.etAmount);
-        Button btnConfirmPay = dialogView.findViewById(R.id.btnConfirmPay);
+        MaterialButton btnConfirmPay = dialogView.findViewById(R.id.btnConfirmPay);
+        ProgressBar progressBar = new ProgressBar(getContext()); // Simple logic to show loading
 
         etAmount.setText(String.valueOf(grandTotal));
 
@@ -112,27 +109,45 @@ public class OrdersFragment extends Fragment {
 
         btnConfirmPay.setOnClickListener(v -> {
             String phone = etPhone.getText().toString().trim();
-            String amountStr = etAmount.getText().toString().trim();
-
-            if (phone.isEmpty()) {
-                etPhone.setError("Phone number is required");
+            if (phone.isEmpty() || !phone.startsWith("254") || phone.length() != 12) {
+                etPhone.setError("Enter a valid phone number (2547...)");
                 return;
             }
 
-            if (!phone.startsWith("254") || phone.length() != 12) {
-                etPhone.setError("Enter a valid phone number (e.g., 2547XXXXXXXX)");
-                return;
-            }
+            // Show loading state
+            btnConfirmPay.setEnabled(false);
+            btnConfirmPay.setText("Processing...");
 
-            int amount = Integer.parseInt(amountStr);
-            makePayment(phone, amount);
-            dialog.dismiss();
+            makePayment(phone, grandTotal, new PaymentCallback() {
+                @Override
+                public void onSuccess() {
+                    if (isAdded()) {
+                        requireActivity().runOnUiThread(() -> {
+                            Toast.makeText(requireContext(), "Payment Successful!", Toast.LENGTH_LONG).show();
+                            cartViewModel.moveToPurchased();
+                            dialog.dismiss();
+                        });
+                    }
+                }
+
+                @Override
+                public void onFailure(String message) {
+                    if (isAdded()) {
+                        requireActivity().runOnUiThread(() -> {
+                            btnConfirmPay.setEnabled(true);
+                            btnConfirmPay.setText("PAY NOW");
+                            Toast.makeText(requireContext(), "Failed: " + message, Toast.LENGTH_LONG).show();
+                            // Pop-up stays open here
+                        });
+                    }
+                }
+            });
         });
 
         dialog.show();
     }
 
-    private void makePayment(String phone, int amount) {
+    private void makePayment(String phone, int amount, PaymentCallback callback) {
         OkHttpClient client = new OkHttpClient();
         JSONObject jsonObject = new JSONObject();
         try {
@@ -154,31 +169,25 @@ public class OrdersFragment extends Fragment {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                if (!isAdded()) return;
-                requireActivity().runOnUiThread(() -> {
-                    Toast.makeText(requireContext(), "Payment failed. Check connection", Toast.LENGTH_SHORT).show();
-                });
+                callback.onFailure("Connection error. Check internet.");
             }
 
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                if (!isAdded()) return;
                 String resp = response.body() != null ? response.body().string() : "";
+                Log.d("MPESA_RESPONSE", resp);
                 
-                requireActivity().runOnUiThread(() -> {
-                    // Simulating a success check from backend response
-                    // In a real app, you'd parse 'resp' to confirm 'ResponseCode' is '0'
-                    boolean isSuccess = resp.contains("Success") || resp.contains("sent"); 
-
-                    if (isSuccess) {
-                        Toast.makeText(requireContext(), "Payment Successful!", Toast.LENGTH_LONG).show();
-                        cartViewModel.moveToPurchased();
-                    } else {
-                        Toast.makeText(requireContext(), "Payment failed: " + resp, Toast.LENGTH_LONG).show();
-                    }
-                    Log.d("MPESA_RESPONSE", resp);
-                });
+                if (resp.contains("Success") || resp.contains("sent")) {
+                    callback.onSuccess();
+                } else {
+                    callback.onFailure(resp.isEmpty() ? "Unknown error" : resp);
+                }
             }
         });
+    }
+
+    interface PaymentCallback {
+        void onSuccess();
+        void onFailure(String message);
     }
 }

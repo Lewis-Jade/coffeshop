@@ -3,6 +3,7 @@ package com.example.coffeecafe;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -12,9 +13,6 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -51,139 +49,139 @@ public class ConfirmDetails extends AppCompatActivity {
         tvGender = findViewById(R.id.tv_gender);
         btnCancel = findViewById(R.id.bv_cancel);
         btnConfirm = findViewById(R.id.bv_confirm);
+        
         Intent getUserDetails = getIntent();
         getFullName = getUserDetails.getStringExtra("full_name");
         getEmail = getUserDetails.getStringExtra("email");
         getPhone = getUserDetails.getStringExtra("phone");
         getGender = getUserDetails.getStringExtra("gender");
 
-        tvFullName.setText(String.format("%s", getFullName));
-        tvEmail.setText(String.format("%s", getEmail));
-        tvPhone.setText(String.format("%s", getPhone));
-        tvGender.setText(String.format("%s", getGender));
+        tvFullName.setText(getFullName);
+        tvEmail.setText(getEmail);
+        tvPhone.setText(getPhone);
+        tvGender.setText(getGender);
+        
         setBtnCancel();
 
-        btnConfirm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                confirmUser();
-            }
-        });
-
+        btnConfirm.setOnClickListener(view -> confirmUser());
     }
-/////// cancel btn
-private void setBtnCancel() {
-    btnCancel.setOnClickListener(view -> {
 
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+    private void setBtnCancel() {
+        btnCancel.setOnClickListener(view -> {
+            FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+            Intent resultIntent = new Intent();
+            resultIntent.putExtra("full_name", getFullName);
+            resultIntent.putExtra("email", getEmail);
+            resultIntent.putExtra("phone", getPhone);
+            resultIntent.putExtra("gender", getGender);
 
-        // Prepare data to return
-        Intent resultIntent = new Intent();
-        resultIntent.putExtra("full_name", getIntent().getStringExtra("full_name"));
-        resultIntent.putExtra("email", getIntent().getStringExtra("email"));
-        resultIntent.putExtra("phone", getIntent().getStringExtra("phone"));
-        resultIntent.putExtra("gender", getIntent().getStringExtra("gender"));
-
-        if (firebaseUser != null) {
-            firebaseUser.delete().addOnCompleteListener(task -> {
-                FirebaseAuth.getInstance().signOut();
+            if (firebaseUser != null) {
+                firebaseUser.delete().addOnCompleteListener(task -> {
+                    FirebaseAuth.getInstance().signOut();
+                    setResult(RESULT_CANCELED, resultIntent);
+                    finish();
+                });
+            } else {
                 setResult(RESULT_CANCELED, resultIntent);
                 finish();
-            });
-        } else {
-            setResult(RESULT_CANCELED, resultIntent);
-            finish();
-        }
-    });
-}
+            }
+        });
+    }
 
-
-
-    //creating a user account
     private void confirmUser() {
         btnConfirm.setEnabled(false);
         btnConfirm.setText("Saving...");
-        btnConfirm.setBackgroundTintList(ContextCompat.getColorStateList(this,R.color.ic_plus));
+        btnConfirm.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.ic_plus));
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user == null) return; // safety check
+        if (user == null) {
+            Toast.makeText(this, "Session expired. Please try again.", Toast.LENGTH_SHORT).show();
+            btnConfirm.setEnabled(true);
+            btnConfirm.setText("Confirm");
+            return;
+        }
 
         String uid = user.getUid();
         database = FirebaseDatabase.getInstance();
         reference = database.getReference("Users");
 
-        String phoneNumber = getPhone;
-        String fullName = getFullName;
-        String email = getEmail;
-
-        // Check if phone number already exists
-        reference.orderByChild("phone").equalTo(phoneNumber)
+        // Use a single listener to check for phone existence AND save
+        reference.orderByChild("phone").equalTo(getPhone)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if (snapshot.exists()) {
-                            Toast.makeText(ConfirmDetails.this,
-                                    "Phone number already registered!",
-                                    Toast.LENGTH_SHORT).show();
-                        } else {
-                            // Phone is unique → save user data
-                            Map<String, Object> userdata = new HashMap<>();
-                            userdata.put("fullName", fullName);
-                            userdata.put("email", email);
-                            userdata.put("phone", phoneNumber);
-
-                            reference.child(uid).setValue(userdata)
-                                    .addOnSuccessListener(aVoid -> {
-                                        // Send email verification
-                                        sendEmailVerification(user);
-                                    })
-                                    .addOnFailureListener(e -> {
-                                        Toast.makeText(ConfirmDetails.this,
-                                                "Failed to save your details!",
-                                                Toast.LENGTH_SHORT).show();
-                                    });
+                            // Check if the existing phone belongs to the CURRENT user (re-registration)
+                            boolean isMine = false;
+                            for (DataSnapshot child : snapshot.getChildren()) {
+                                if (child.getKey().equals(uid)) {
+                                    isMine = true;
+                                    break;
+                                }
+                            }
+                            
+                            if (!isMine) {
+                                Toast.makeText(ConfirmDetails.this, "Phone number already registered!", Toast.LENGTH_SHORT).show();
+                                btnConfirm.setEnabled(true);
+                                btnConfirm.setText("Confirm");
+                                return;
+                            }
                         }
+                        
+                        // Proceed to save
+                        saveUserData(user, uid);
                     }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
-                        Toast.makeText(ConfirmDetails.this,
-                                "Database error!",
-                                Toast.LENGTH_SHORT).show();
+                        btnConfirm.setEnabled(true);
+                        btnConfirm.setText("Confirm");
+                        Toast.makeText(ConfirmDetails.this, "Database error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
 
-    // Method to send verification email and show success popup
+    private void saveUserData(FirebaseUser user, String uid) {
+        Map<String, Object> userdata = new HashMap<>();
+        userdata.put("fullName", getFullName);
+        userdata.put("email", getEmail);
+        userdata.put("phone", getPhone);
+        userdata.put("gender", getGender);
+
+        reference.child(uid).setValue(userdata)
+                .addOnSuccessListener(aVoid -> sendEmailVerification(user))
+                .addOnFailureListener(e -> {
+                    btnConfirm.setEnabled(true);
+                    btnConfirm.setText("Confirm");
+                    Toast.makeText(ConfirmDetails.this, "Failed to save: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
+    }
+
     private void sendEmailVerification(FirebaseUser user) {
         user.sendEmailVerification()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        // Show success popup
                         showSuccessDialog();
                     } else {
-                        Toast.makeText(ConfirmDetails.this,
-                                "Failed to send verification email.",
-                                Toast.LENGTH_SHORT).show();
+                        btnConfirm.setEnabled(true);
+                        btnConfirm.setText("Confirm");
+                        Toast.makeText(ConfirmDetails.this, "Email error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
 
-    // Beautiful popup with button to go to LoginActivity
     private void showSuccessDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(ConfirmDetails.this);
-        builder.setTitle("🎉 Account Created")
-                .setMessage("Your account was successfully created! A verification email has been sent. Please check your inbox.")
+        new AlertDialog.Builder(ConfirmDetails.this)
+                .setTitle("🎉 Account Created")
+                .setMessage("Your account was successfully created! A verification email has been sent to " + getEmail + ". Please check your inbox and SPAM folder.")
                 .setCancelable(false)
                 .setPositiveButton("Go to Login", (dialog, which) -> {
-                    startActivity(new Intent(ConfirmDetails.this, LoginActivity.class));
+                    FirebaseAuth.getInstance().signOut();
+                    Intent intent = new Intent(ConfirmDetails.this, LoginActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
                     finish();
-                });
-
-        AlertDialog dialog = builder.create();
-        dialog.show();
+                })
+                .show();
     }
-
-
-
 }
